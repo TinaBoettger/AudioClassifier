@@ -686,8 +686,8 @@ public class AudioCapturePanel extends JPanel implements ActionListener {
 				thread.interrupt();
 			}
 			thread = null;
-			JOptionPane.showMessageDialog(this,
-				    "The audio signal captured most probably describes a bang.");
+//			JOptionPane.showMessageDialog(this,
+//				    "The audio signal captured most probably describes a bang.");
 		}
 
 		public void run() {
