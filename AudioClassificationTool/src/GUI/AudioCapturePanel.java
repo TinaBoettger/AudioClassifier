@@ -53,7 +53,7 @@ public class AudioCapturePanel extends JPanel implements ActionListener {
 
 	Capture capture = new Capture();
 	Playback playback = new Playback();
-
+	FeatureExtractor ex;
 	AudioInputStream audioInputStream;
 	AudioFormat format = null;
 	SamplingGraph samplingGraph;
@@ -583,6 +583,7 @@ public class AudioCapturePanel extends JPanel implements ActionListener {
 			int w = d.width;
 			int h = d.height - 15;
 			int[] audioData = null;
+			int[] copyAudioData = null;
 			int nlengthInSamples = audioBytes.length / 2;
 			audioData = new int[nlengthInSamples];
 		
@@ -593,27 +594,28 @@ public class AudioCapturePanel extends JPanel implements ActionListener {
 				int MSB = (int) audioBytes[2 * i + 1];
 				audioData[i] = MSB << 8 | (255 & LSB);
 			}
-			
-
+			copyAudioData = audioData;
+		
 			int frames_per_pixel = audioBytes.length / format.getFrameSize() / w;
 			byte my_byte = 0;
 			double y_last = 0;
 			int numChannels = format.getChannels();
 			for (double x = 0; x < w && audioData != null; x++) {
 				int idx = (int) (frames_per_pixel * numChannels * x);
-				System.out.println(audioData[idx]);
 				if (format.getSampleSizeInBits() == 8) {
 					my_byte = (byte) audioData[idx];
+					copyAudioData[idx] = my_byte;
 				} else {
 					my_byte = (byte) (128 * audioData[idx] / 32768);
+					copyAudioData[idx] = my_byte;
 				}
-//				System.out.println(my_byte);
 				double y_new = (double) (h * (128 - my_byte) / 256);
-//				System.out.println("x1: " + x + " y1: " + y_last + " x2: " + x + " y2: " + y_new);
 				lines.add(new Line2D.Double(x, y_last, x, y_new));
 				y_last = y_new;
 			}
-
+			ex = new FeatureExtractor(copyAudioData);
+			System.out.println(copyAudioData.length);
+			
 			repaint();
 		}
 
