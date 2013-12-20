@@ -25,7 +25,7 @@ public class MainWindow extends JFrame {
 	}
 
 	private void createAndShow() {
-		setTitle("Regressionsgerade");
+		setTitle("Audio Capture");
 		contentPane = new JPanel(new BorderLayout());
 		contentPane.setOpaque(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
