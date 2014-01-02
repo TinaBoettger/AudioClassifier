@@ -613,7 +613,7 @@ public class AudioCapturePanel extends JPanel implements ActionListener {
 				lines.add(new Line2D.Double(x, y_last, x, y_new));
 				y_last = y_new;
 			}
-			ex = new FeatureExtractor(copyAudioData);
+			ex = new FeatureExtractor(copyAudioData, seconds, format.getSampleRate());
 			System.out.println(copyAudioData.length);
 			
 			repaint();
